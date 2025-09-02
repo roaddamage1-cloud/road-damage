@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW ISSUES</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>ISSUE</th>
+            <th>DESCRIPTION</th>
+            <th>DATE</th>
+            <th>COMMENT</th>
+        </tr>
+        {% for i in val %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.Issue}}</td>
+            <td>{{i.Description}}</td>
+            <td>{{i.Date}}</td>
+            <td>{{i.Comment}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

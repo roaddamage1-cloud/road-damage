@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW ASSIGNED WORK</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>R_ID</th>
+            <th>START_DATE</th>
+            <th>END_DATE</th>
+            <th>STATUS</th>
+        </tr>
+        {% for i in val %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.REPORT_ID}}</td>
+            <td>{{i.Startdate}}</td>
+            <td>{{i.Enddate}}</td>
+            <td>{{i.Status}}</td>
+        </tr>
+        {% endfor %}
+    </table>     
+</body>
+</html>

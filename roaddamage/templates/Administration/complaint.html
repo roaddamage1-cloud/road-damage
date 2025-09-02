@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW COMPLAINT</title>
+</head>
+<body>
+     <table border="1">
+        <tr>
+            <th>USERID</th>
+            <th>INCIDENT</th>
+            <th>DESCRIPTION</th>
+            <th>STATUS</th>
+            <th>DATE</th>
+        </tr>
+        {% for i in val %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.Userid }}</td>
+            <td>{{ i.Incident }}</td>
+            <td>{{ i.Description}}</td>
+            <td>{{ i.Status}}</td>
+            <td>{{ i.Date}}</td>
+            <td><a href="update/{{i.id}}">reply</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

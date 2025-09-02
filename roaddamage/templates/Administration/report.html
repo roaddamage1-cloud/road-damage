@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANAGE REPORTS</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>INCIDENT</th>
+            <th>PLACE</th>
+            <th>TIME</th>
+            <th>IMAGE</th>
+        </tr>
+        {% for i in val %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.Message}}</td>
+            <td>{{i.Location}}</td>
+            <td>{{i.Time}}</td>
+            <td><img src="{{i.Image.url}}" width="100" height="100"></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
