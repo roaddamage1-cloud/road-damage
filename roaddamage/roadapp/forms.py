@@ -9,10 +9,6 @@ class AuthorityForm(ModelForm):
         model = AuthorityTable
         fields = ['Name','Email','Phone','Department','Place','Address']
 
-class AssignWorkForm(ModelForm):
-    class Meta:
-        model = AssignWorkTable
-        fields = ['AUTHORITY_ID','USERID','REPORT_ID','Enddate','Status']
 
 class IssueForm(ModelForm):
     class Meta:

@@ -48,15 +48,34 @@ class manageuser(View):
         obj = UserTable.objects.all()
         return render(request, "Administration/manageuser.html", {'val': obj})
     
+class deleteuser(View):
+    def get(self, request, lid):
+        obj = LoginTable.objects.get(id=lid)
+        obj.delete()
+        return redirect('/manageuser')
+    
 class manageauthority(View):
     def get(self, request):
         obj = AuthorityTable.objects.all()
         return render(request, "Administration/manageauthority.html", {'val': obj})
     
+class deleteauthority(View):
+    def get(self, request, lid):
+        obj = LoginTable.objects.get(id=lid)
+        obj.delete()
+        return redirect('/manageauthority')
+    
 class issues(View):
     def get(self, request):
-        obj = IssueTable.objects.all()
-        return render(request, "Administration/issues.html", {'val': obj})
+        obj = ReportTable.objects.all()
+        return render(request, "Administration/assignwork.html", {'val': obj})
+    
+class authorityDep(View):
+    def get(self, request):
+        obj = AuthorityTable.objects.all()
+        return render(request, "Administration/authorityDep.html", {'val': obj})
+    
+         
     
 class feedback(View):
     def get(self, request):
@@ -72,13 +91,26 @@ class complaint(View):
     def get(self, request):
         obj = ComplaintTable.objects.all()
         return render(request, "Administration/complaint.html", {'val': obj})
-    
-class assignwork(View):
+
+
+class viewassignAdmin(View):
     def get(self, request):
         obj = AssignWorkTable.objects.all()
-        return render(request, "Administration/assignwork.html", {'val': obj})
-    # def post(self, request):
-    #     h=
+        return render(request, "Administration/viewassignAdmin.html", {'val': obj})
+       
+
+
+class IssueListView(View):
+    def get(self, request):
+        issues = ReportTable.objects.all()
+        return render(request, "Administration/assignwork.html", {'issues': issues})
+    def post(self, request):
+        #form=AssignWorkForm(request.POST)
+        #if form.is_valid():
+            #form.save()
+            return render('assignwork')
+
+
     
 class addauthority(View):
     def get(self, request):
@@ -94,6 +126,8 @@ class addauthority(View):
 class AdminHome(View):
     def get(self, request):
         return render(request, "Administration/AdminHome.html")
+    
+
     
  # /////////////////////////////////////   Authority    //////////////////////////////////////
     
@@ -133,5 +167,5 @@ class viewissues(View):
 
 class AuthorityHome(View):
     def get(self, request):
-        return render(request, "Authority/AuthorityHome.html",) 
+        return render(request, "Authority/AuthorityHome.html") 
       

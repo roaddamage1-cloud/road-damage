@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASSIGN WORK TO AUTHORITY</title>
+    <title>Issues List</title>
 </head>
 <body>
-    <table style="border: 1px solid;">
+    <h2>Reported Issues</h2>
+    <table border="1">
         <tr>
-             <td>ID:</td>
-             <td><input type="text" ></td>
+            <th>Username</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Assign Work</th>
         </tr>
+        {% for issue in val %}
         <tr>
-            <td>AUTHORITY:</td>
-            <td><input type="text"></td>
+            <td>{{issue.USER_ID.Name}}</td>
+            <td>{{ issue.Date }}</td>
+            <td>{{ issue.Location }}</td>
+            <td>
+                {% if issue.Image %}
+                    <img src="{{ issue.Image.url }}" width="100"/>
+                {% else %}
+                    No image
+                {% endif %}
+            </td>
+            <td>{{ issue.Description }}</td>
+            <td>
+                <a href="">Assign Work</a>
+            </td>
         </tr>
-        <tr>
-             <td>START DATE:</td>
-             <td><input type="text" ></td>
-        </tr>
-        <tr>
-             <td>END DATE:</td>
-             <td><input type="text" ></td>
-        </tr>
-        <tr>
-             <td>STATUS:</td>
-             <td><input type="text" ></td>
-        </tr>
-        <tr>
-            <td><br/><input type="submit" value="SUBMIT"></td>
-        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

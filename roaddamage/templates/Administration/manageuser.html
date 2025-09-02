@@ -25,7 +25,9 @@
             <td>{{i.Address}}</td>
             <td>{{i.Phone}}</td>
             <td>{{i.Email}}</td>
-            <td><a href="delete">delete</a></td>
+            <td>
+            <a href="/deleteuser/{{i.LOGIN.id}}">delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>

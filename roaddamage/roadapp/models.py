@@ -29,9 +29,10 @@ class AlertTable(models.Model):
     Message=models.CharField(max_length=200,null=True,blank=True)
     Time=models.DateTimeField(auto_now_add=True)
     Location=models.CharField(max_length=50,null=True,blank=True)
+    Image=models.FileField(null=True,blank=True)
 
 class ReportTable(models.Model):
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
+    USER_ID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
     Message=models.CharField(max_length=200,null=True,blank=True)
     Time=models.DateTimeField(auto_now_add=True)
     Date=models.DateField(auto_now_add=True)
@@ -47,12 +48,7 @@ class MapViewTable(models.Model):
     Status=models.CharField(max_length=20,null=True,blank=True)
     Location=models.CharField(max_length=50,null=True,blank=True)
 
-class ContactTable(models.Model):
-    USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
-    Contactnumber=models.BigIntegerField(null=True,blank=True)
-    Department=models.CharField(max_length=20,null=True,blank=True)
-    Place=models.CharField(max_length=50,null=True,blank=True)
-    Email=models.CharField(max_length=50,null=True,blank=True)
+
 
 class FeedBackTable(models.Model):
     USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
@@ -73,7 +69,6 @@ class ComplaintTable(models.Model):
 
 class AssignWorkTable(models.Model):
     AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
-    USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
     REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True)
     Startdate=models.DateField(auto_now_add=True)
     Enddate=models.DateField(null=True,blank=True)
