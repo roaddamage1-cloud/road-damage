@@ -11,8 +11,9 @@ urlpatterns = [
     path('addauthority', addauthority.as_view(), name='addauthority'),
     path('complaint', complaint.as_view(), name='complaint'), 
     path('viewassignAdmin', viewassignAdmin.as_view(), name='viewassignAdmin'), 
-    path('authorityDep',authorityDep.as_view(), name='authorityDep' ),
-    
+    path('addincident', addincident.as_view(), name='addincident' ),
+    path('manageincident', manageincident.as_view(), name='manageincident'), 
+    path('deleteIncident/<int:lid>', deleteIncident.as_view(), name='deleteIncident'),
     path('detection', detection.as_view(), name='detection'), 
     path('feedback', feedback.as_view(), name='feedback'), 
     path('issues', issues.as_view(), name='issues'), 

@@ -17,7 +17,6 @@ class UserTable(models.Model):
 
 class AuthorityTable(models.Model):
     LOGIN=models.ForeignKey(LoginTable,on_delete=models.CASCADE,null=True,blank=True)
-    Name=models.CharField(max_length=20,null=True,blank=True)
     Email=models.CharField(max_length=50,null=True,blank=True)
     Phone=models.BigIntegerField(null=True,blank=True)
     Department=models.CharField(max_length=20,null=True,blank=True)
@@ -33,6 +32,7 @@ class AlertTable(models.Model):
 
 class ReportTable(models.Model):
     USER_ID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
+    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
     Message=models.CharField(max_length=200,null=True,blank=True)
     Time=models.DateTimeField(auto_now_add=True)
     Date=models.DateField(auto_now_add=True)
@@ -41,9 +41,13 @@ class ReportTable(models.Model):
     Description=models.CharField(max_length=200,null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)
 
+class IncidentTable(models.Model):
+    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
+    Incident=models.CharField(max_length=200,null=True,blank=True)
+
 class MapViewTable(models.Model):
-    Time=models.DateTimeField(null=True,blank=True)
-    Date=models.DateField(auto_now_add=True)
+    # Time=models.DateTimeField(null=True,blank=True)
+    Date=models.DateTimeField(auto_now_add=True)
     Incident=models.CharField(max_length=200,null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)
     Location=models.CharField(max_length=50,null=True,blank=True)

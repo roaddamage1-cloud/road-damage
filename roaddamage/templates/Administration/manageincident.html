@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>AUTHORITY</th>
+            <th>INCIDENT</th>
+        </tr>
+                {% for i in val %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.AUTHORITY_ID.Department }}</td>
+            <td>{{ i.Incident }}</td>
+            <td>
+                <a href="/deleteIncident/{{i.id}}">delete</a>
+            </td>
+        </tr>
+        {% endfor %} 
+        <tr>
+            <a href="/addincident">add</a>
+            
+        </tr>
+    </table>
+
+</body>
+</html>

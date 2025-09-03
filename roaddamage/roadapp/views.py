@@ -70,10 +70,40 @@ class issues(View):
         obj = ReportTable.objects.all()
         return render(request, "Administration/assignwork.html", {'val': obj})
     
-class authorityDep(View):
+class addincident(View):
     def get(self, request):
-        obj = AuthorityTable.objects.all()
-        return render(request, "Administration/authorityDep.html", {'val': obj})
+        form = IncidentForm()
+        authorities = AuthorityTable.objects.all()
+        return render(request, "Administration/addincident.html", {
+            'form': form,
+            'authorities': authorities
+        })
+
+    def post(self, request):
+        form = IncidentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manageincident')
+        authorities = AuthorityTable.objects.all()
+        return render(request, "Administration/addincident.html", {
+            'form': form,
+            'authorities': authorities
+        })
+
+        
+class manageincident(View):
+    def get(self, request):
+            obj = IncidentTable.objects.all()
+            return render(request, "Administration/manageincident.html", {'val': obj})
+
+class deleteIncident(View):
+    def get(self, request, lid):
+        obj = IncidentTable.objects.get(id=lid)
+        obj.delete()
+        return redirect('/manageincident')
+
+
+       
     
          
     

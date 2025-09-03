@@ -13,7 +13,9 @@
             <th>PLACE</th>
             <th>TIME</th>
             <th>IMAGE</th>
+            <th>AUTHORITY</th>
         </tr>
+
         {% for i in val %}
         <tr>
             <td>{{ forloop.counter }}</td>
@@ -21,8 +23,17 @@
             <td>{{i.Location}}</td>
             <td>{{i.Time}}</td>
             <td><img src="{{i.Image.url}}" width="100" height="100"></td>
+            <td>                 
+                <select>
+                    <!-- <object data="text" ></object> -->
+                    <option>TRAFFIC POLICE</option>
+                    <option>PWD</option>
+                    <option>AMBULANCE</option>
+                    <option>POLICE</option>
+                </select>
+            </td>
         </tr>
-        {% endfor %}
+        {% endfor %}        
     </table>
 </body>
 </html>

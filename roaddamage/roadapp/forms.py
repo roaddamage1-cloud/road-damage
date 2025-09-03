@@ -7,7 +7,7 @@ from roadapp.models import *
 class AuthorityForm(ModelForm):
     class Meta:
         model = AuthorityTable
-        fields = ['Name','Email','Phone','Department','Place','Address']
+        fields = ['Email','Phone','Department','Place','Address']
 
 
 class IssueForm(ModelForm):
@@ -24,3 +24,9 @@ class ReplyForm(ModelForm):
     class Meta:
         model=ComplaintTable
         fields=['Reply']
+
+class IncidentForm(ModelForm):
+    class Meta:
+        model = IncidentTable
+        fields = ['Incident', 'AUTHORITY_ID']
+
