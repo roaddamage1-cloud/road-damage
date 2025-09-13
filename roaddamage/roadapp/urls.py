@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('', login.as_view(), name='login'),
     path('addauthority', addauthority.as_view(), name='addauthority'),
+    path('editauthority/<int:id>', editauthority.as_view(), name='editauthority'),
     path('complaint', complaint.as_view(), name='complaint'), 
     path('viewassignAdmin', viewassignAdmin.as_view(), name='viewassignAdmin'), 
     path('addincident', addincident.as_view(), name='addincident' ),
@@ -24,6 +25,7 @@ urlpatterns = [
     path('report', report.as_view(), name='report'),
     path('update/<int:id>', update.as_view(), name='update'), 
     path('AdminHome', AdminHome.as_view(), name='AdminHome'),
+    path('assignwork/<int:report_id>/', assignwork.as_view(), name='assign_work'),
 
     # /////////////////////////////////////   Authority    //////////////////////////////////////
     

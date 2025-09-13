@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDIT AUTHORITY</title>
+</head>
+<body>
+     <form method="post">
+          {% csrf_token %}
+     <table style="border: 1px solid;">
+        <tr>
+             <td>DEPARTMENT:</td>
+             <td><input type="text" name="Department" value="{{ val.Department}}"><br/></td>
+        </tr>
+        <tr>
+             <td>CONTACT:</td>
+             <td><input type="text" name="Phone" value="{{ val.Phone}}"><br/></td>
+        </tr>
+        <tr>
+             <td>ADDRESS:</td>
+             <td><textarea name="Address" value="{{ val.Address}}">{{ val.Address }}</textarea><br/></td>
+        </tr>
+        <tr>
+             <td>PLACE:</td>
+             <td><input type="text" name="Place" value="{{ val.Place}}"><br/></td>
+        </tr>
+         <tr>
+             <td>EMAIL:</td>
+             <td><input type="text" name="Email" value="{{ val.Email}}"><br/></td>
+        </tr>
+                <tr>
+            <td><br/><input type="submit" value="SUBMIT"></td>
+        </tr>
+
+    </table>
+    </form>
+</body>
+</html>

@@ -67,24 +67,16 @@ class ComplaintTable(models.Model):
     Incident=models.CharField(max_length=50,null=True,blank=True)
     Description=models.CharField(max_length=200,null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)
-    Reply=models.CharField(max_length=20,null=True,blank=True)
+    Reply=models.CharField(max_length=20,null=True,blank=True, default='pending')
     Date=models.DateField(auto_now_add=True)
 
 
 class AssignWorkTable(models.Model):
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
+   
     REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True)
     Startdate=models.DateField(auto_now_add=True)
     Enddate=models.DateField(null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)
 
-class IssueTable(models.Model):
-    USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
-    ASSIGN_WORK=models.ForeignKey(AssignWorkTable,on_delete=models.CASCADE,null=True,blank=True)
-    Issue=models.CharField(max_length=50,null=True,blank=True)
-    Description=models.CharField(max_length=200,null=True,blank=True)
-    Date=models.DateField(auto_now_add=True)
-    Comment=models.CharField(max_length=200,null=True,blank=True)
 
 

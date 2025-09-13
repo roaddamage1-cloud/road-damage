@@ -11,5 +11,5 @@ admin.site.register(MapViewTable),
 admin.site.register(FeedBackTable),
 admin.site.register(ComplaintTable),
 admin.site.register(AssignWorkTable),
-admin.site.register(IssueTable),
+
 admin.site.register(IncidentTable)

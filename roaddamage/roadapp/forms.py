@@ -10,10 +10,6 @@ class AuthorityForm(ModelForm):
         fields = ['Email','Phone','Department','Place','Address']
 
 
-class IssueForm(ModelForm):
-    class Meta:
-        model = IssueTable
-        fields = ['USERID','AUTHORITY_ID','ASSIGN_WORK','Issue','Description','Comment']
 
 class ComplaintForm(ModelForm):
     class Meta:
@@ -29,4 +25,8 @@ class IncidentForm(ModelForm):
     class Meta:
         model = IncidentTable
         fields = ['Incident', 'AUTHORITY_ID']
+class AssignWorkForm(ModelForm):
+    class Meta:
+        model = AssignWorkTable
+        fields = ['Enddate']         
 

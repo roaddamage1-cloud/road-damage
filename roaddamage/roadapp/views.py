@@ -37,6 +37,11 @@ class update(View):
     def get(self, request,id):
         c=ComplaintTable.objects.get(id=id)
         return render(request, "Administration/update.html",{'a':c})
+    def post(self, request,id):
+        obj = ComplaintTable.objects.get(id=id)
+        obj.Reply= request.POST['Reply']   
+        obj.save()
+        return redirect('complaint')
     
 class report(View):
     def get(self, request):
@@ -69,6 +74,13 @@ class issues(View):
     def get(self, request):
         obj = ReportTable.objects.all()
         return render(request, "Administration/assignwork.html", {'val': obj})
+class  assignwork(View):   
+   def get(self,request, report_id):
+       return render(request,'assignworks.html')
+   
+class assignworksauthority(View):
+    def get(self,request):
+        return render(request,'assigndates.html')    
     
 class addincident(View):
     def get(self, request):
@@ -157,6 +169,17 @@ class AdminHome(View):
     def get(self, request):
         return render(request, "Administration/AdminHome.html")
     
+class editauthority(View):
+    def get(self, request,id):
+        obj = AuthorityTable.objects.get(LOGIN__id=id)
+        return render(request, "Administration/editauthority.html", {'val' :obj} ) 
+    def post(self, request,id):
+        obj = AuthorityTable.objects.get(LOGIN__id=id)
+        form= AuthorityForm(request.POST,instance=obj)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.save()
+            return redirect('manageauthority')
 
     
  # /////////////////////////////////////   Authority    //////////////////////////////////////

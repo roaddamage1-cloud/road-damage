@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Work</title>
+</head>
+<body>
+    <h2>Assign Work for Report ID: {{ report.id }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Start Date:</label>
+        <input type="text" value="{{ report.Date }}" disabled><br><br>
+
+        {{ form.as_p }}
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
