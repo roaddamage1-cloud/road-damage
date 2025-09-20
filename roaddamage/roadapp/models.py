@@ -54,6 +54,8 @@ class MapViewTable(models.Model):
 
 
 
+
+
 class FeedBackTable(models.Model):
     USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
     Rating=models.FloatField(null=True,blank=True)
@@ -73,7 +75,7 @@ class ComplaintTable(models.Model):
 
 class AssignWorkTable(models.Model):
    
-    REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True)
+    REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True,related_name='assignments')
     Startdate=models.DateField(auto_now_add=True)
     Enddate=models.DateField(null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)

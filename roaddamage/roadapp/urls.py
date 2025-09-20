@@ -35,5 +35,6 @@ urlpatterns = [
     path('sendissues', sendissues.as_view(), name='sendissues'), 
     path('viewassign', viewassign.as_view(), name='viewassign'), 
     path('viewissues', viewissues.as_view(), name='viewissues'), 
-    path('AuthorityHome', AuthorityHome.as_view(), name='AuthorityHome')
+    path('AuthorityHome', AuthorityHome.as_view(), name='AuthorityHome'),
+    path('update-status/<int:assignment_id>/', updatestatus.as_view(), name='update_status'),
 ]

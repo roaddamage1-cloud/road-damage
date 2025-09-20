@@ -18,7 +18,7 @@ class login(View):
         password1 = request.POST['Password']
         try:
             obj = LoginTable.objects.get(Username=username1, Password=password1)
-            request.session['username'] = obj.id
+            request.session['lid'] = obj.id
 
             # Handle based on user type
             if obj.UserType =='admin':
@@ -74,9 +74,23 @@ class issues(View):
     def get(self, request):
         obj = ReportTable.objects.all()
         return render(request, "Administration/assignwork.html", {'val': obj})
-class  assignwork(View):   
-   def get(self,request, report_id):
-       return render(request,'assignworks.html')
+    
+class assignwork(View):
+    def get(self, request, report_id):
+        d = ReportTable.objects.get(id=report_id)
+        return render(request, 'Administration/assignworks.html', {'report': d})
+
+    def post(self, request, report_id):
+        d = ReportTable.objects.get(id=report_id)
+        form = AssignWorkForm(request.POST)
+        if form.is_valid():
+            assign = form.save(commit=False)
+            assign.REPORT_ID = d
+            assign.Status = 'Pending' 
+            assign.save()
+        return redirect('issues') 
+
+
    
 class assignworksauthority(View):
     def get(self,request):
@@ -196,8 +210,17 @@ class fdback(View):
     
 class authorityreport(View):
     def get(self, request):
-        obj = ReportTable.objects.all()
-        return render(request, "Authority/authorityreport.html", {'val': obj})  
+        reports = ReportTable.objects.filter(AUTHORITY_ID__LOGIN_id=request.session['lid'])
+        print(request.session['lid'])
+        return render(request, "Authority/authorityreport.html", {'val': reports})
+    
+class updatestatus(View):
+    def post(self, request,assignment_id):
+        status = request.POST.get('status')
+        assignment = AssignWorkTable.objects.get(id=assignment_id)
+        assignment.Status = status
+        assignment.save()
+        return redirect('authorityreport')
      
 class sendissues(View):
     def get(self, request):

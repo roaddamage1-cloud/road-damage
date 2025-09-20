@@ -13,26 +13,34 @@
             <th>Image</th>
             <th>Description</th>
             <th>Assign Work</th>
+        
         </tr>
-        {% for issue in val %}
-        <tr>
-            <td>{{issue.USER_ID.Name}}</td>
-            <td>{{ issue.Date }}</td>
-            <td>{{ issue.Location }}</td>
-            <td>
-                {% if issue.Image %}
-                    <img src="{{ issue.Image.url }}" width="100"/>
-                {% else %}
-                    No image
-                {% endif %}
-            </td>
-            <td>{{ issue.Description }}</td>
-            <td>
-               <a href="assignwork/{{ issue.id }}">Assign Work</a>
+{% for issue in val %}
+<tr>
+    <td>{{ issue.USER_ID.Name }}</td>
+    <td>{{ issue.Date }}</td>
+    <td>{{ issue.Location }}</td>
+    <td>
+        {% if issue.Image %}
+            <img src="{{ issue.Image.url }}" width="100"/>
+        {% else %}
+            No image
+        {% endif %}
+    </td>
+    <td>{{ issue.Description }}</td>
 
+    {% with assignment=issue.assignments.first %}
+        {% if assignment %}
+            <td>{{ assignment.Status }}</td> 
+        {% else %}
+            <td>
+                <a href="assignwork/{{ issue.id }}">Assign Work</a> 
             </td>
-        </tr>
-        {% endfor %}
+        {% endif %}
+    {% endwith %}
+</tr>
+{% endfor %}
+
     </table>
 </body>
 </html>

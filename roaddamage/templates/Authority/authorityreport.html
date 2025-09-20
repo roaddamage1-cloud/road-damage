@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIEW REPORTS</title>
 </head>
 <body>
-        <table border="1">
+    <h2>Reported Issues (Assigned to You)</h2>
+
+    <table border="1">
         <tr>
             <th>ID</th>
             <th>R_ID</th>
@@ -16,17 +17,49 @@
             <th>TIME</th>
             <th>DATE</th>
             <th>IMAGE</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Update Status</th>
         </tr>
+
         {% for i in val %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{i.R_ID}}</td>
-            <td>{{i.Message}}</td>
-            <td>{{i.Description}}</td>
-            <td>{{i.Location}}</td>
-            <td>{{i.Time}}</td>
-            <td>{{i.Date}}</td>
-            <td><img src="{{i.Image.url}}" width="100" height="100"></td>
+            <td>{{ i.id }}</td>
+            <td>{{ i.Message }}</td>
+            <td>{{ i.Description }}</td>
+            <td>{{ i.Location }}</td>
+            <td>{{ i.Time }}</td>
+            <td>{{ i.Date }}</td>
+            <td>
+                {% if i.Image %}
+                    <img src="{{ i.Image.url }}" width="100" height="100">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+
+            {% with assignment=i.assignments.first %}
+                {% if assignment %}
+                    <td>{{ assignment.Startdate }}</td>
+                    <td>{{ assignment.Enddate }}</td>
+                    <td>{{ assignment.Status }}</td>
+                    <td>
+                        <form method="post" action="{% url 'update_status' assignment.id %}">
+                            {% csrf_token %}
+                            <select name="status">
+                                <option value="Pending" {% if assignment.Status == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="In Progress" {% if assignment.Status == "In Progress" %}selected{% endif %}>In Progress</option>
+                                <option value="Completed" {% if assignment.Status == "Completed" %}selected{% endif %}>Completed</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                {% else %}
+                    <td colspan="4">Not Assigned</td>
+                {% endif %}
+            {% endwith %}
         </tr>
         {% endfor %}
     </table>
