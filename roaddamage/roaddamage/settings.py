@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'roadapp'
+    'roadapp',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

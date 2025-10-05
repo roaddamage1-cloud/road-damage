@@ -4,7 +4,9 @@ from django.views import View
 
 from roadapp.models import *
 from roadapp.forms import *
-
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
 
  # /////////////////////////////////////// Administration //////////////////////////////
 
@@ -235,13 +237,58 @@ class viewassign(View):
         obj = AssignWorkTable.objects.all()
         return render(request, "Authority/viewassign.html", {'val': obj})
        
-class viewissues(View):
-    def get(self, request):
-        obj = IssueTable.objects.all()
-        return render(request, "Authority/viewissues.html", {'val': obj}) 
     
 
 class AuthorityHome(View):
     def get(self, request):
         return render(request, "Authority/AuthorityHome.html") 
       
+class LoginPage(APIView):
+    def post(self,request):
+        print("#################")
+        response_dict={}
+
+        username=request.data.get("username")
+        password=request.data.get("password")
+        print("$$$$$$$$$",username)
+
+        if not username or not password:
+            response_dict["message"]="failed"
+            return Response(response_dict,status=status.HTTP_400_BAD_REQUEST)
+        
+        t_user=LoginTable.objects.filter(username=username).first()
+        print("%%%%%%%%%%%%%%%%%%",t_user)
+
+        if not t_user:
+            response_dict["message"]="failed"
+            return Response(response_dict,status=status.HTTP_401_UNAUTHORIZED)
+        
+        else:
+            response_dict["message"]="failed"
+            response_dict["login_id"]=t_user.id
+        return Response(response_dict,status=HTTP_200_ok)
+    
+
+class UserReg_api(APIView):
+    def post(self,request):
+        print("#################",request.data)
+
+        user_serial= User_Serializer(data=request.data)
+        login_serial=Login_Serializer(data=request.data)
+
+        data_valid=user_serial.is_valid()
+        login_valid=login_serial.is_valid()
+
+        if data_valid and login_valid:
+            login_profile=login_serial.save(usertype='USER')
+
+            user_serial.save(login=login_profile)
+
+            return Response(user_serial.data, status=status.HTTP_201_CREATED)
+
+
+
+
+
+
+            
