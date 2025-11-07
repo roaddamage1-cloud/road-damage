@@ -7,7 +7,7 @@ from roadapp.models import *
 class AuthorityForm(ModelForm):
     class Meta:
         model = AuthorityTable
-        fields = ['Email','Phone','Department','Place','Address']
+        fields = ['Department','Email','Phone','Department','Place','Address']
 
 
 

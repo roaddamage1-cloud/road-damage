@@ -49,7 +49,24 @@ class report(View):
     def get(self, request):
         obj = ReportTable.objects.all()
         return render(request, "Administration/report.html", {'val': obj})
-    
+class update_enddate(View):
+    def post(self, request, report_id):
+        date = request.POST.get('date')
+        report = ReportTable.objects.get(id=report_id)
+
+        # Check if an assignment already exists for this report
+        existing_assign = AssignWorkTable.objects.filter(REPORT_ID=report).first()
+
+        if existing_assign and existing_assign.Enddate:
+            # Already assigned → show alert
+            return HttpResponse('''<script>alert("Already assigned!");window.location='/report'</script>''')
+        else:
+            # Create or update assignment
+            assign, created = AssignWorkTable.objects.get_or_create(REPORT_ID=report)
+            assign.Enddate = date
+            assign.save()
+            return HttpResponse('''<script>alert("Assigned successfully!");window.location='/report'</script>''')
+
 class manageuser(View):
     def get(self, request):
         obj = UserTable.objects.all()
@@ -57,7 +74,7 @@ class manageuser(View):
     
 class deleteuser(View):
     def get(self, request, lid):
-        obj = LoginTable.objects.get(id=lid)
+        obj = UserTable.objects.get(id=lid)
         obj.delete()
         return redirect('/manageuser')
     
@@ -71,6 +88,13 @@ class deleteauthority(View):
         obj = LoginTable.objects.get(id=lid)
         obj.delete()
         return redirect('/manageauthority')
+
+class deletereport(View):
+    def get(self, request, lid):
+        obj = ReportTable.objects.get(id=lid)
+        obj.delete()
+        return redirect('/report')
+
     
 class issues(View):
     def get(self, request):
@@ -145,6 +169,19 @@ class detection(View):
         obj = MapViewTable.objects.all()
         return render(request, "Administration/detection.html", {'val': obj})
     
+class mapview(View):  
+ def get(self,request, id):
+    data = MapViewTable.objects.get(id=id)
+    context = {
+        'latitude': data.Latitude,
+        'longitude': data.longitude,
+        'incident': data.Incident,
+        'status': data.Status,
+        'date': data.Date,
+    }
+    return render(request, 'Administration/mapview.html', context)
+
+    
 class complaint(View):
     def get(self, request):
         obj = ComplaintTable.objects.all()
@@ -167,23 +204,38 @@ class IssueListView(View):
         #if form.is_valid():
             #form.save()
             return render('assignwork')
-
+    
 
     
 class addauthority(View):
     def get(self, request):
-        return render(request, "Administration/addauthority.html") 
+        dept=Department.objects.all()
+        return render(request, "Administration/addauthority.html",{'dep':dept}) 
     def post(self, request):
         form= AuthorityForm(request.POST)
         if form.is_valid():
             f=form.save(commit=False)
             f.LOGIN = LoginTable.objects.create(Username=request.POST['Username'], Password=request.POST['Password'], UserType="Authority")
             f.save()
-            return redirect('manageauthority')
+            return HttpResponse('''<script>alert("Added successfully!");window.location='/'</script>''')
+
         
 class AdminHome(View):
     def get(self, request):
         return render(request, "Administration/AdminHome.html")
+    
+class department(View):
+    def get(self, request):
+        return render(request, "Administration/department.html")
+    
+class updatedept(View):
+    def post(self, request,assignment_id):
+        status = request.POST.get('status')
+        assignment = Department.objects.get(id=assignment_id)
+        assignment.save()
+        return redirect('department')
+
+
     
 class editauthority(View):
     def get(self, request,id):
@@ -218,7 +270,7 @@ class authorityreport(View):
     
 class updatestatus(View):
     def post(self, request,assignment_id):
-        status = request.POST.get('status')
+        status = request.POST.get('deptname')
         assignment = AssignWorkTable.objects.get(id=assignment_id)
         assignment.Status = status
         assignment.save()

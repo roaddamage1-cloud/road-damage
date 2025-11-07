@@ -14,12 +14,14 @@ class UserTable(models.Model):
     Address=models.CharField(max_length=50,null=True,blank=True)
     Phone=models.BigIntegerField(null=True,blank=True)
     Email=models.CharField(max_length=50,null=True,blank=True)
+class Department(models.Model):  
+    deptname=models.CharField(max_length=100,null=True,blank=True) 
 
 class AuthorityTable(models.Model):
     LOGIN=models.ForeignKey(LoginTable,on_delete=models.CASCADE,null=True,blank=True)
     Email=models.CharField(max_length=50,null=True,blank=True)
     Phone=models.BigIntegerField(null=True,blank=True)
-    Department=models.CharField(max_length=20,null=True,blank=True)
+    Department=models.ForeignKey(Department,on_delete=models.CASCADE,null=True,blank=True)
     Place=models.CharField(max_length=20,null=True,blank=True)
     Address=models.CharField(max_length=50,null=True,blank=True)
 
@@ -49,8 +51,10 @@ class MapViewTable(models.Model):
     # Time=models.DateTimeField(null=True,blank=True)
     Date=models.DateTimeField(auto_now_add=True)
     Incident=models.CharField(max_length=200,null=True,blank=True)
-    Status=models.CharField(max_length=20,null=True,blank=True)
-    Location=models.CharField(max_length=50,null=True,blank=True)
+    Status=models.CharField(max_length=20,null=True,blank=True,default='pending')
+    Latitude=models.FloatField(max_length=50,null=True,blank=True)
+    longitude=models.FloatField(max_length=50,null=True,blank=True)
+
 
 
 
@@ -76,9 +80,9 @@ class ComplaintTable(models.Model):
 class AssignWorkTable(models.Model):
    
     REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True,related_name='assignments')
-    Startdate=models.DateField(auto_now_add=True)
+
     Enddate=models.DateField(null=True,blank=True)
-    Status=models.CharField(max_length=20,null=True,blank=True)
+    Status=models.CharField(max_length=20,null=True,blank=True,default='pending')
 
 
 

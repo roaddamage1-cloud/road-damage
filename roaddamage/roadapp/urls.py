@@ -16,6 +16,7 @@ urlpatterns = [
     path('manageincident', manageincident.as_view(), name='manageincident'), 
     path('deleteIncident/<int:lid>', deleteIncident.as_view(), name='deleteIncident'),
     path('detection', detection.as_view(), name='detection'), 
+    path('mapview/<int:id>/',mapview.as_view(), name='mapview'),
     path('feedback', feedback.as_view(), name='feedback'), 
     path('issues', issues.as_view(), name='issues'), 
     path('manageauthority', manageauthority.as_view(), name='manageauthority'),
@@ -23,10 +24,14 @@ urlpatterns = [
     path('manageuser', manageuser.as_view(), name='manageuser'), 
     path('deleteuser/<int:lid>', deleteuser.as_view(), name='deleteuser'),
     path('report', report.as_view(), name='report'),
+    path('deletereport/<int:lid>', deletereport.as_view(), name='deletereport'),
+    path('update_enddate/<int:report_id>/',update_enddate.as_view(), name='update_enddate'),
     path('update/<int:id>', update.as_view(), name='update'), 
     path('AdminHome', AdminHome.as_view(), name='AdminHome'),
     path('assignwork/<int:report_id>/', assignwork.as_view(), name='assign_work'),
-
+    path('department', department.as_view(), name='department'),
+    path('updatedept/<int:id>/', updatedept.as_views, name='updatedept'),
+]
     # /////////////////////////////////////   Authority    //////////////////////////////////////
     
     path('alert', alert.as_view(), name='alert'), 

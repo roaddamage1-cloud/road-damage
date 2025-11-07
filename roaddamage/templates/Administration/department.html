@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>DEPARTMENT</h2>
+    <tr>
+    <th>deptname</th>
+    </tr>
+    {% for i in val %}
+    <tr>                
+<td>
+    <form method="post" action="{% url 'updatedept' assignment.id %}">
+        {% csrf_token %}
+        <select name="department">
+            <option value="Ambulance" {% if assignment.Department == "Ambulance" %}selected{% endif %}>Ambulance</option>
+            <option value="Traffic Police" {% if assignment.Department == "Traffic Police" %}selected{% endif %}>Traffic Police</option>
+            <option value="Police" {% if assignment.Department == "Police" %}selected{% endif %}>Police</option>
+            <option value="PWD" {% if assignment.Department == "PWD" %}selected{% endif %}>PWD</option>
+        </select>
+        <button type="submit">Update</button>
+    </form>
+</td>
+    </tr>
+    
+</body>
+</html>

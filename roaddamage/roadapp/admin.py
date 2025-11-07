@@ -13,3 +13,4 @@ admin.site.register(ComplaintTable),
 admin.site.register(AssignWorkTable),
 
 admin.site.register(IncidentTable)
+admin.site.register(Department)

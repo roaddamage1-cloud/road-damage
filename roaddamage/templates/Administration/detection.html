@@ -12,7 +12,7 @@
             <!-- <th>TIME</th> -->
             <th>DATE</th>
             <th>INCIDENT</th>
-            <th>LOCATION</th>
+            <th>VIEW</th>
             <th>STATUS</th>
         </tr>
         {% for i in val %}
@@ -21,7 +21,8 @@
             <!-- <td>{{i.Time}}</td> -->
             <td>{{i.Date}}</td>
             <td>{{i.Incident}}</td>
-            <td>{{i.Location}}</td>
+            <td><a href="/mapview/{{i.id}}">view</a></td>
+            </td>
             <td>{{i.Status}}</td>
         </tr>
         {% endfor %}

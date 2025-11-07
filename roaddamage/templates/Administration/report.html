@@ -13,27 +13,29 @@
             <th>PLACE</th>
             <th>TIME</th>
             <th>IMAGE</th>
-            <th>AUTHORITY</th>
+            <th>ACTION</th>
+            <th>END DATE</th>
         </tr>
 
         {% for i in val %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{i.Message}}</td>
-            <td>{{i.Location}}</td>
-            <td>{{i.Time}}</td>
-            <td><img src="{{i.Image.url}}" width="100" height="100"></td>
-            <td>                 
-                <select>
-                    <!-- <object data="text" ></object> -->
-                    <option>TRAFFIC POLICE</option>
-                    <option>PWD</option>
-                    <option>AMBULANCE</option>
-                    <option>POLICE</option>
-                </select>
+            <td>{{ i.Message }}</td>
+            <td>{{ i.Location }}</td>
+            <td>{{ i.Time }}</td>
+            <td><img src="{{ i.Image.url }}" width="100" height="100"></td>
+            <td>
+                <a href="/deletereport/{{ i.id }}">Delete</a>
+            </td>
+            <td>
+                <form action="{% url 'update_enddate' i.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="date" name="date" required>
+                    <button type="submit">Save</button>
+                </form>
             </td>
         </tr>
-        {% endfor %}        
+        {% endfor %}
     </table>
 </body>
 </html>
