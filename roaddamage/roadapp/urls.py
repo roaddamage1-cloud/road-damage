@@ -30,15 +30,16 @@ urlpatterns = [
     path('AdminHome', AdminHome.as_view(), name='AdminHome'),
     path('assignwork/<int:report_id>/', assignwork.as_view(), name='assign_work'),
     path('department', department.as_view(), name='department'),
-    path('updatedept/<int:id>/', updatedept.as_views, name='updatedept'),
-]
+    path('updatedept/<int:id>/', updatedept.as_view(), name='updatedept'),
+
     # /////////////////////////////////////   Authority    //////////////////////////////////////
     
     path('alert', alert.as_view(), name='alert'), 
     path('authorityreport', authorityreport.as_view(), name='authorityreport'), 
     path('fdback', fdback.as_view(), name='fdback'), 
-    path('sendissues', sendissues.as_view(), name='sendissues'), 
+    path('sendissues',sendissues.as_view(), name='sendissues'), 
     path('viewassign', viewassign.as_view(), name='viewassign'), 
     path('AuthorityHome', AuthorityHome.as_view(), name='AuthorityHome'),
-    path('update-status/<int:assignment_id>/', updatestatus.as_view(), name='update_status'),
+    path('update-status/<int:assignment_id>/', update_status.as_view(), name='update_status'),
+    
 ]

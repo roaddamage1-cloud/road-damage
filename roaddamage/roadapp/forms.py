@@ -30,3 +30,7 @@ class AssignWorkForm(ModelForm):
         model = AssignWorkTable
         fields = ['Enddate']         
 
+class departmentForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = ['deptname']         

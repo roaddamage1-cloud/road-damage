@@ -2,38 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MANAGE REPORTS</title>
+    <title>View Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <table border="1">
+    <h2>Reported Issues</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="department"><b>Select Department:</b></label>
+        <select name="deptname" id="department" onchange="this.form.submit()">
+            <option value="">-- Select Department --</option>
+            {% for d in object %}
+                <option value="{{ d.id }}" {% if d.id|stringformat:"s" == request.POST.deptname %}selected{% endif %}>
+                    {{ d.deptname }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <table>
         <tr>
-            <th>ID</th>
-            <th>INCIDENT</th>
-            <th>PLACE</th>
-            <th>TIME</th>
-            <th>IMAGE</th>
-            <th>ACTION</th>
-            <th>END DATE</th>
+            <th>#</th>
+            <th>R_ID</th>
+            <th>Incident</th>
+            <th>Description</th>
+            <th>Place</th>
+            <th>Time</th>
+            <th>Date</th>
+            <th>Image</th>
+            <th>End Date</th>
+            <th>Status</th>
         </tr>
 
         {% for i in val %}
         <tr>
             <td>{{ forloop.counter }}</td>
+            <td>{{ i.id }}</td>
             <td>{{ i.Message }}</td>
+            <td>{{ i.Description }}</td>
             <td>{{ i.Location }}</td>
             <td>{{ i.Time }}</td>
-            <td><img src="{{ i.Image.url }}" width="100" height="100"></td>
+            <td>{{ i.Date }}</td>
             <td>
-                <a href="/deletereport/{{ i.id }}">Delete</a>
+                {% if i.Image %}
+                    <img src="{{ i.Image.url }}" width="100" height="100" alt="Report Image">
+                {% else %}
+                    No Image
+                {% endif %}
             </td>
-            <td>
-                <form action="{% url 'update_enddate' i.id %}" method="post">
+
+           {% with assign=i.assignments.first %}
+    {% if assign %}
+        <td>{{ assign.Enddate }}</td>
+
+        <td>
+            {% if assign.Status and assign.Status != 'pending' %}
+                {{ assign.Status }}
+            {% else %}
+                <form method="post" action="{% url 'update_status' assign.id %}">
                     {% csrf_token %}
-                    <input type="date" name="date" required>
-                    <button type="submit">Save</button>
+                    <input type="text" name="status" placeholder="Enter Status" required>
+                    <button type="submit">Update</button>
                 </form>
-            </td>
+            {% endif %}
+        </td>
+    {% else %}
+        <td colspan="2">Not Assigned</td>
+    {% endif %}
+{% endwith %}
         </tr>
         {% endfor %}
     </table>

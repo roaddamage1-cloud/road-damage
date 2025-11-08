@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Department</title>
 </head>
 <body>
-    <h2>DEPARTMENT</h2>
-    <tr>
-    <th>deptname</th>
-    </tr>
-    {% for i in val %}
-    <tr>                
-<td>
-    <form method="post" action="{% url 'updatedept' assignment.id %}">
-        {% csrf_token %}
-        <select name="department">
-            <option value="Ambulance" {% if assignment.Department == "Ambulance" %}selected{% endif %}>Ambulance</option>
-            <option value="Traffic Police" {% if assignment.Department == "Traffic Police" %}selected{% endif %}>Traffic Police</option>
-            <option value="Police" {% if assignment.Department == "Police" %}selected{% endif %}>Police</option>
-            <option value="PWD" {% if assignment.Department == "PWD" %}selected{% endif %}>PWD</option>
-        </select>
-        <button type="submit">Update</button>
-    </form>
-</td>
-    </tr>
-    
+  <form method="post">
+     {% csrf_token %}
+    <label for="department">Department</label>
+    <select name="deptname" id="department">
+      <option value="">-- Select Department --</option>
+      <option value="traffic police">Traffic Police</option>
+      <option value="police">Police</option>
+      <option value="pwd">PWD</option>
+      <option value="ambulance">Ambulance</option>
+    </select>
+    <input type="submit" value="Add"/>
+  </form>
 </body>
 </html>

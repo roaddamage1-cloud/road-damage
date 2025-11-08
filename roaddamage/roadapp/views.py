@@ -25,7 +25,7 @@ class login(View):
             # Handle based on user type
             if obj.UserType =='admin':
                 return HttpResponse('''<script>alert("welcome back");window.location='/AdminHome'</script>''')
-            elif obj.UserType =='authority':
+            elif obj.UserType =='Authority':
                 return HttpResponse('''<script>alert("welcome back");window.location='/AuthorityHome'</script>''')
 
             else:
@@ -47,8 +47,17 @@ class update(View):
     
 class report(View):
     def get(self, request):
-        obj = ReportTable.objects.all()
-        return render(request, "Administration/report.html", {'val': obj})
+        obj = Department.objects.all()
+      # show all initially (or none if you prefer)
+        return render(request, "Administration/report.html", {'object': obj})
+
+    def post(self, request):
+        dept = request.POST.get('deptname')
+        obj = Department.objects.all()
+        reports = ReportTable.objects.filter(DEPARTMENT_ID=dept)
+        return render(request, "Administration/report.html", {'object': obj, 'val': reports})
+
+    
 class update_enddate(View):
     def post(self, request, report_id):
         date = request.POST.get('date')
@@ -227,6 +236,12 @@ class AdminHome(View):
 class department(View):
     def get(self, request):
         return render(request, "Administration/department.html")
+    def post(self, request):
+        form= departmentForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.save()
+            return HttpResponse('''<script>alert("Added successfully!");window.location='/AdminHome'</script>''')
     
 class updatedept(View):
     def post(self, request,assignment_id):
@@ -264,17 +279,28 @@ class fdback(View):
     
 class authorityreport(View):
     def get(self, request):
-        reports = ReportTable.objects.filter(AUTHORITY_ID__LOGIN_id=request.session['lid'])
-        print(request.session['lid'])
-        return render(request, "Authority/authorityreport.html", {'val': reports})
+        obj = Department.objects.all()
+      # show all initially (or none if you prefer)
+        return render(request, "Authority/authorityreport.html", {'object': obj})
+
+    def post(self, request):
+        dept = request.POST.get('deptname')
+        obj = Department.objects.all()
+        reports = ReportTable.objects.filter(DEPARTMENT_ID=dept)
+        return render(request, "Authority/authorityreport.html", {'object': obj, 'val': reports})
+class update_status(View):
+  def post(self,request, assignment_id):
+    assign = AssignWorkTable.objects.get(id=assignment_id)
+    if request.method == "POST":
+        new_status = request.POST.get('status')
+        if new_status:
+            assign.Status = new_status
+            assign.save()
+        return HttpResponse('''<script>alert("updated successfully!");window.location='/authorityreport'</script>''')
+ 
     
-class updatestatus(View):
-    def post(self, request,assignment_id):
-        status = request.POST.get('deptname')
-        assignment = AssignWorkTable.objects.get(id=assignment_id)
-        assignment.Status = status
-        assignment.save()
-        return redirect('authorityreport')
+    
+
      
 class sendissues(View):
     def get(self, request):

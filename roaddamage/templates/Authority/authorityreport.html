@@ -2,25 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VIEW REPORTS</title>
+    <title>View Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <h2>Reported Issues</h2>
 
-    <table border="1">
+    <form method="post">
+        {% csrf_token %}
+        <label for="department"><b>Select Department:</b></label>
+        <select name="deptname" id="department" onchange="this.form.submit()">
+            <option value="">-- Select Department --</option>
+            {% for d in object %}
+                <option value="{{ d.id }}" {% if d.id|stringformat:"s" == request.POST.deptname %}selected{% endif %}>
+                    {{ d.deptname }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <table>
         <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>R_ID</th>
-            <th>INCIDENT</th>
-            <th>DESCRIPTION</th>
-            <th>PLACE</th>
-            <th>TIME</th>
-            <th>DATE</th>
-            <th>IMAGE</th>
-            <th>Start Date</th>
+            <th>Incident</th>
+            <th>Description</th>
+            <th>Place</th>
+            <th>Time</th>
+            <th>Date</th>
+            <th>Image</th>
             <th>End Date</th>
             <th>Status</th>
-            <th>Update Status</th>
         </tr>
 
         {% for i in val %}
@@ -34,32 +93,31 @@
             <td>{{ i.Date }}</td>
             <td>
                 {% if i.Image %}
-                    <img src="{{ i.Image.url }}" width="100" height="100">
+                    <img src="{{ i.Image.url }}" width="100" height="100" alt="Report Image">
                 {% else %}
                     No Image
                 {% endif %}
             </td>
 
-            {% with assignment=i.assignments.first %}
-                {% if assignment %}
-                    <td>{{ assignment.Startdate }}</td>
-                    <td>{{ assignment.Enddate }}</td>
-                    <td>{{ assignment.Status }}</td>
-                    <td>
-                        <form method="post" action="{% url 'update_status' assignment.id %}">
-                            {% csrf_token %}
-                            <select name="status">
-                                <option value="Pending" {% if assignment.Status == "Pending" %}selected{% endif %}>Pending</option>
-                                <option value="In Progress" {% if assignment.Status == "In Progress" %}selected{% endif %}>In Progress</option>
-                                <option value="Completed" {% if assignment.Status == "Completed" %}selected{% endif %}>Completed</option>
-                            </select>
-                            <button type="submit">Update</button>
-                        </form>
-                    </td>
-                {% else %}
-                    <td colspan="4">Not Assigned</td>
-                {% endif %}
-            {% endwith %}
+           {% with assign=i.assignments.first %}
+    {% if assign %}
+        <td>{{ assign.Enddate }}</td>
+
+        <td>
+            {% if assign.Status and assign.Status != 'pending' %}
+                {{ assign.Status }}
+            {% else %}
+                <form method="post" action="{% url 'update_status' assign.id %}">
+                    {% csrf_token %}
+                    <input type="text" name="status" placeholder="Enter Status" required>
+                    <button type="submit">Update</button>
+                </form>
+            {% endif %}
+        </td>
+    {% else %}
+        <td colspan="2">Not Assigned</td>
+    {% endif %}
+{% endwith %}
         </tr>
         {% endfor %}
     </table>

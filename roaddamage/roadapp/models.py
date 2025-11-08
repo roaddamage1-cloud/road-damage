@@ -34,7 +34,7 @@ class AlertTable(models.Model):
 
 class ReportTable(models.Model):
     USER_ID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
+    DEPARTMENT_ID=models.ForeignKey(Department,on_delete=models.CASCADE,null=True,blank=True)
     Message=models.CharField(max_length=200,null=True,blank=True)
     Time=models.DateTimeField(auto_now_add=True)
     Date=models.DateField(auto_now_add=True)
