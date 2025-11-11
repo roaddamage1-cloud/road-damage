@@ -15,8 +15,8 @@ urlpatterns = [
     path('addincident', addincident.as_view(), name='addincident' ),
     path('manageincident', manageincident.as_view(), name='manageincident'), 
     path('deleteIncident/<int:lid>', deleteIncident.as_view(), name='deleteIncident'),
-    path('detection', detection.as_view(), name='detection'), 
-    path('mapview/<int:id>/',mapview.as_view(), name='mapview'),
+    # path('detection', detection.as_view(), name='detection'), 
+    # path('mapview/<int:id>/',mapview.as_view(), name='mapview'),
     path('feedback', feedback.as_view(), name='feedback'), 
     path('issues', issues.as_view(), name='issues'), 
     path('manageauthority', manageauthority.as_view(), name='manageauthority'),
@@ -35,6 +35,8 @@ urlpatterns = [
     # /////////////////////////////////////   Authority    //////////////////////////////////////
     
     path('alert', alert.as_view(), name='alert'), 
+    path('view_location/<int:id>/', ViewLocation.as_view(), name='view_location'),
+    path('alerts', alerts.as_view(), name='alerts'), 
     path('authorityreport', authorityreport.as_view(), name='authorityreport'), 
     path('fdback', fdback.as_view(), name='fdback'), 
     path('sendissues',sendissues.as_view(), name='sendissues'), 

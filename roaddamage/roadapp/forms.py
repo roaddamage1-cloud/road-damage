@@ -21,10 +21,7 @@ class ReplyForm(ModelForm):
         model=ComplaintTable
         fields=['Reply']
 
-class IncidentForm(ModelForm):
-    class Meta:
-        model = IncidentTable
-        fields = ['Incident', 'AUTHORITY_ID']
+
 class AssignWorkForm(ModelForm):
     class Meta:
         model = AssignWorkTable

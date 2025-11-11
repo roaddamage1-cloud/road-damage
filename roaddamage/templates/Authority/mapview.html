@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Location</title>
+
+    <!-- ✅ Include Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Incident Location: {{ report.Message }}</h2>
+    <div id="map"></div>
+
+    <script>
+        // ✅ Convert Django template variables safely into JS numbers
+        var latitude = parseFloat("{{ report.Latitude }}");
+        var longitude = parseFloat("{{ report.longitude }}");
+
+        console.log("Latitude:", latitude, "Longitude:", longitude);
+
+        // ✅ Check if valid numbers
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+            var map = L.map('map').setView([latitude, longitude], 15);
+
+            // ✅ Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // ✅ Add marker
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup("<b>{{ report.Message }}</b><br>{{ report.Description }}")
+                .openPopup();
+        } else {
+            alert("Invalid coordinates: " + latitude + ", " + longitude);
+        }
+    </script>
+</body>
+</html>

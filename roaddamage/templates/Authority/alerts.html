@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Popup container */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .popup img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .popup h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .popup p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Popup container -->
+    {% for i in val %}
+    <div class="popup" id="popup{{ forloop.counter }}">
+        <h3>Incident {{ forloop.counter }}</h3>
+        <p><strong>Message:</strong> {{ i.Message }}</p>
+        <p><strong>Location:</strong> {{ i.Location }}</p>
+        <p><strong>Time:</strong> {{ i.Time }}</p>
+        {% if i.Image %}
+        <img src="{{ i.Image.url }}" alt="Incident Image">
+        {% endif %}
+        <button onclick="nextPopup({{ forloop.counter }}, {{ val|length }})">OK</button>
+    </div>
+    {% endfor %}
+
+    <script>
+        let current = 1;
+        let total = {{ val|length }};
+
+        // Show the first popup
+        window.onload = function() {
+            if (total > 0) {
+                document.getElementById('popup1').style.display = 'block';
+            }
+        };
+
+        // Show next popup when OK is clicked
+        function nextPopup(currentIndex, totalCount) {
+            document.getElementById('popup' + currentIndex).style.display = 'none';
+            let nextIndex = currentIndex + 1;
+            if (nextIndex <= totalCount) {
+                document.getElementById('popup' + nextIndex).style.display = 'block';
+            } else {
+                alert('All incidents have been viewed.');
+            }
+        }
+    </script>
+
+</body>
+</html>

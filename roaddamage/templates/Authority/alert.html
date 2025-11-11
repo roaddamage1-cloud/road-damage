@@ -3,26 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Incident Alerts</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-    <table border="1">
+    <h2 style="text-align:center;">Incident Alerts</h2>
+    <table>
         <tr>
             <th>ID</th>
             <th>INCIDENT</th>
-            <th>PLACE</th>
             <th>TIME</th>
+            <th>DATE</th>
+            <th>DESCRIPTION</th>
             <th>IMAGE</th>
+            <th>MAP VIEW</th>
         </tr>
         {% for i in val %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{i.Message}}</td>
-            <td>{{i.Location}}</td>
-            <td>{{i.Time}}</td>
-            <td><img src="{{i.Image.url}}" width="100" height="100"></td>
+            <td>{{ i.Message }}</td>
+            <td>{{ i.Time }}</td>
+            <td>{{ i.Date }}</td>
+            <td>{{ i.Description }}</td>
+            <td>
+                {% if i.Image %}
+                    <img src="{{ i.Image.url }}" width="100" height="100">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+            <td>
+                {% if i.Latitude and i.longitude %}
+                    <a href="{% url 'view_location' i.id %}">
+                        <button>View Location</button>
+                    </a>
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
-    </table>    
+    </table>
 </body>
 </html>

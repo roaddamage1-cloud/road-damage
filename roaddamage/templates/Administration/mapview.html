@@ -41,7 +41,7 @@
             L.marker([lat, lng]).addTo(map)
                 .bindPopup(`<b>Pothole:</b> {{ incident }}<br><b>Status:</b> {{ status }}`)
                 .openPopup();
-        } else {
+        } else {a
             document.getElementById('map').innerHTML =
                 "<p style='color:red;'>⚠️ Location data not available.</p>";
         }

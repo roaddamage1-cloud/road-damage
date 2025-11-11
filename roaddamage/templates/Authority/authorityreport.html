@@ -78,7 +78,7 @@
             <th>Time</th>
             <th>Date</th>
             <th>Image</th>
-            <th>End Date</th>
+            <th>Enddate</th>
             <th>Status</th>
         </tr>
 
@@ -104,15 +104,18 @@
         <td>{{ assign.Enddate }}</td>
 
         <td>
-            {% if assign.Status and assign.Status != 'pending' %}
+            
+            <--{% if assign.Status and assign.Status|lower != 'pending' %}
                 {{ assign.Status }}
-            {% else %}
+           {% else %}
                 <form method="post" action="{% url 'update_status' assign.id %}">
                     {% csrf_token %}
                     <input type="text" name="status" placeholder="Enter Status" required>
                     <button type="submit">Update</button>
-                </form>
+                 </form>
             {% endif %}
+
+
         </td>
     {% else %}
         <td colspan="2">Not Assigned</td>

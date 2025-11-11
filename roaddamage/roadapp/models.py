@@ -25,39 +25,24 @@ class AuthorityTable(models.Model):
     Place=models.CharField(max_length=20,null=True,blank=True)
     Address=models.CharField(max_length=50,null=True,blank=True)
 
-class AlertTable(models.Model):
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
-    Message=models.CharField(max_length=200,null=True,blank=True)
-    Time=models.DateTimeField(auto_now_add=True)
-    Location=models.CharField(max_length=50,null=True,blank=True)
-    Image=models.FileField(null=True,blank=True)
-
 class ReportTable(models.Model):
     USER_ID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
     DEPARTMENT_ID=models.ForeignKey(Department,on_delete=models.CASCADE,null=True,blank=True)
     Message=models.CharField(max_length=200,null=True,blank=True)
     Time=models.DateTimeField(auto_now_add=True)
     Date=models.DateField(auto_now_add=True)
-    Location=models.CharField(max_length=50,null=True,blank=True)
+    Latitude=models.FloatField(max_length=50,null=True,blank=True)
+    longitude=models.FloatField(max_length=50,null=True,blank=True)
     Image=models.FileField(null=True,blank=True)
     Description=models.CharField(max_length=200,null=True,blank=True)
     Status=models.CharField(max_length=20,null=True,blank=True)
 
-class IncidentTable(models.Model):
-    AUTHORITY_ID=models.ForeignKey(AuthorityTable,on_delete=models.CASCADE,null=True,blank=True)
-    Incident=models.CharField(max_length=200,null=True,blank=True)
+class AssignWorkTable(models.Model):
+   
+    REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True,related_name='assignments')
 
-class MapViewTable(models.Model):
-    # Time=models.DateTimeField(null=True,blank=True)
-    Date=models.DateTimeField(auto_now_add=True)
-    Incident=models.CharField(max_length=200,null=True,blank=True)
-    Status=models.CharField(max_length=20,null=True,blank=True,default='pending')
-    Latitude=models.FloatField(max_length=50,null=True,blank=True)
-    longitude=models.FloatField(max_length=50,null=True,blank=True)
-
-
-
-
+    Enddate=models.DateField(null=True,blank=True)
+    Status=models.CharField(max_length=20,null=True,blank=True,default='pending')    
 
 
 class FeedBackTable(models.Model):
@@ -77,12 +62,7 @@ class ComplaintTable(models.Model):
     Date=models.DateField(auto_now_add=True)
 
 
-class AssignWorkTable(models.Model):
-   
-    REPORT_ID=models.ForeignKey(ReportTable,on_delete=models.CASCADE,null=True,blank=True,related_name='assignments')
 
-    Enddate=models.DateField(null=True,blank=True)
-    Status=models.CharField(max_length=20,null=True,blank=True,default='pending')
 
 
 

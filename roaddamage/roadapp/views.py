@@ -61,20 +61,19 @@ class report(View):
 class update_enddate(View):
     def post(self, request, report_id):
         date = request.POST.get('date')
-        report = ReportTable.objects.get(id=report_id)
+        report = ReportTable.objects.get( id=report_id)
 
-        # Check if an assignment already exists for this report
-        existing_assign = AssignWorkTable.objects.filter(REPORT_ID=report).first()
+        # Check for existing assignment
+        assign, created = AssignWorkTable.objects.get_or_create(REPORT_ID=report)
 
-        if existing_assign and existing_assign.Enddate:
-            # Already assigned → show alert
-            return HttpResponse('''<script>alert("Already assigned!");window.location='/report'</script>''')
-        else:
-            # Create or update assignment
-            assign, created = AssignWorkTable.objects.get_or_create(REPORT_ID=report)
-            assign.Enddate = date
-            assign.save()
-            return HttpResponse('''<script>alert("Assigned successfully!");window.location='/report'</script>''')
+        if assign.Enddate:
+            # Already assigned
+            return HttpResponse('''<script>alert("End date already set!");window.location='/report'</script>''')
+
+        assign.Enddate = date
+        assign.Status = 'Pending'  # default status
+        assign.save()
+        return HttpResponse('''<script>alert("End date already set!");window.location='/report'</script>''')
 
 class manageuser(View):
     def get(self, request):
@@ -173,22 +172,7 @@ class feedback(View):
         obj = FeedBackTable.objects.all()
         return render(request, "Administration/feedback.html", {'val': obj})
     
-class detection(View):
-    def get(self, request):
-        obj = MapViewTable.objects.all()
-        return render(request, "Administration/detection.html", {'val': obj})
-    
-class mapview(View):  
- def get(self,request, id):
-    data = MapViewTable.objects.get(id=id)
-    context = {
-        'latitude': data.Latitude,
-        'longitude': data.longitude,
-        'incident': data.Incident,
-        'status': data.Status,
-        'date': data.Date,
-    }
-    return render(request, 'Administration/mapview.html', context)
+
 
     
 class complaint(View):
@@ -269,8 +253,22 @@ class editauthority(View):
     
 class alert(View):
     def get(self, request):
-        obj = AlertTable.objects.all()
-        return render(request, "Authority/alert.html", {'val': obj} )   
+        obj = ReportTable.objects.all()
+        for i in obj:
+         print(i.Latitude, i.longitude)
+        return render(request, "Authority/alert.html", {'val': obj} ) 
+      
+class ViewLocation(View):
+    def get(self, request, id):
+        report = ReportTable .objects.get(id=id)
+        
+        return render(request, "Authority/mapview.html", {'report': report})    
+    
+class alerts(View):
+    def get(self, request):
+        obj = ReportTable.objects.all()
+        return render(request, "Authority/alerts.html", {'val': obj} )   
+
     
 class fdback(View):
     def get(self, request):
