@@ -105,7 +105,7 @@
 
         <td>
             
-            <--{% if assign.Status and assign.Status|lower != 'pending' %}
+            {% if assign.Status and assign.Status|lower != 'pending' %}
                 {{ assign.Status }}
            {% else %}
                 <form method="post" action="{% url 'update_status' assign.id %}">
