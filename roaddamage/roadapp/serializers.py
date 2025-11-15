@@ -14,13 +14,9 @@ class Loginserializer(ModelSerializer):
 class Userserializer(ModelSerializer):
     class Meta:
         model = UserTable
-        fields = ['LOGIN','Name','Age','Email','Gender','Address','Phone','Place']
+        fields = ['LOGIN','Name','Age','Email','Gender','Address','Phone']
 
 
-class Alertserializer(ModelSerializer):
-    class Meta:
-        model = AlertTable
-        fields = ['Time','location','message','image']
 
 
 class Reportserializer(ModelSerializer):
@@ -28,18 +24,10 @@ class Reportserializer(ModelSerializer):
         model = ReportTable
         fields = ['Message','Time','date','location','Image','Description','status'] 
 
-class Incidentserializer(ModelSerializer):
-    class Meta:
-        model = IncidentTable
-        fields = ['Incident'] 
-class Mapviewserializer(ModelSerializer):
-    class Meta:
-        model = MapViewTable
-        fields = ['date','location','incident','status'] 
 class FeedBackserializer(ModelSerializer):
     class Meta:
         model = FeedBackTable
-        fields = ['Rating','Review','Image','Date'] 
+        fields = ['USERID','Rating','Review'] 
 
 class Complaintserializer(ModelSerializer):
     class Meta:

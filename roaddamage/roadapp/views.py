@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 
+from roadapp.serializers import Complaintserializer, FeedBackserializer, Loginserializer, Userserializer
+
  # /////////////////////////////////////// Administration //////////////////////////////
 
 
@@ -318,21 +320,20 @@ class viewassign(View):
 class AuthorityHome(View):
     def get(self, request):
         return render(request, "Authority/AuthorityHome.html") 
+    
       
 class LoginPage(APIView):
     def post(self,request):
         print("#################")
         response_dict={}
 
-        username=request.data.get("username")
-        password=request.data.get("password")
+        username=request.data.get("Username")
+        password=request.data.get("Password")
         print("$$$$$$$$$",username)
 
-        if not username or not password:
-            response_dict["message"]="failed"
-            return Response(response_dict,status=status.HTTP_400_BAD_REQUEST)
+   
         
-        t_user=LoginTable.objects.filter(username=username).first()
+        t_user=LoginTable.objects.filter(Username=username).first()
         print("%%%%%%%%%%%%%%%%%%",t_user)
 
         if not t_user:
@@ -342,25 +343,69 @@ class LoginPage(APIView):
         else:
             response_dict["message"]="failed"
             response_dict["login_id"]=t_user.id
-        return Response(response_dict,status=HTTP_200_ok)
+        return Response(response_dict,status=status.HTTP_201_CREATED)
     
 
 class UserReg_api(APIView):
     def post(self,request):
         print("#################",request.data)
 
-        user_serial= User_Serializer(data=request.data)
-        login_serial=Login_Serializer(data=request.data)
+        user_serial= Userserializer(data=request.data)
+        login_serial=Loginserializer(data=request.data)
 
         data_valid=user_serial.is_valid()
         login_valid=login_serial.is_valid()
 
         if data_valid and login_valid:
-            login_profile=login_serial.save(usertype='USER')
+            login_profile=login_serial.save(UserType='USER')
 
-            user_serial.save(login=login_profile)
+            user_serial.save(LOGIN=login_profile)
 
             return Response(user_serial.data, status=status.HTTP_201_CREATED)
+        
+class feedback_add(APIView):  
+    def post(self,request,id):
+      user=UserTable.objects.get(LOGIN__id=id)
+      serializer=FeedBackserializer(data=request.data)
+      if serializer.is_valid():
+          serializer.save(USERID=user)
+          return Response(serializer.data, status=status.HTTP_201_CREATED)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+class ComplaintCreateView(APIView):
+    def post(self, request):
+        print("#################",request.data)
+        loginid = request.data.get("loginid")
+        
+        userobj=UserTable.objects.get(LOGIN__id=loginid)
+      
+        # Prepare data for serializer
+        complaint_data = {
+            "USERID": userobj.id,
+            "Incident": request.data.get("incident"),
+            "Description": request.data.get("description"),
+            "Status": request.data.get("status", ""),
+            "Reply": request.data.get("reply", "")
+        }
+
+        serializer = Complaintserializer(data=complaint_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Complaint submitted successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #   data = request.data.copy()
+    #   print(data)
+    #   # assign user id inside data
+   
+    #   serializer = FeedBackserializer(data=data)
+
+    #   if serializer.is_valid():
+    #     serializer.save()
+    #     return Response({"message": "Feedback added"}, status=201)
+
+      
 
 
 

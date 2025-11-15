@@ -49,7 +49,6 @@ class FeedBackTable(models.Model):
     USERID=models.ForeignKey(UserTable,on_delete=models.CASCADE,null=True,blank=True)
     Rating=models.FloatField(null=True,blank=True)
     Review=models.CharField(max_length=200,null=True,blank=True)
-    Image=models.FileField(null=True,blank=True)
     Date=models.DateField(auto_now_add=True)
 
 

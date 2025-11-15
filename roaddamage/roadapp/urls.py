@@ -43,5 +43,18 @@ urlpatterns = [
     path('viewassign', viewassign.as_view(), name='viewassign'), 
     path('AuthorityHome', AuthorityHome.as_view(), name='AuthorityHome'),
     path('update-status/<int:assignment_id>/', update_status.as_view(), name='update_status'),
-    
+
+
+
+
+
+
+    ##################### Api #########################################    
+
+
+    path('UserReg_api/', UserReg_api.as_view(), name='UserReg_api'),
+    path('LoginPage/',LoginPage.as_view(), name ='LoginPage'),
+    path('feedback/<int:id>/', feedback_add.as_view(),name='feedback_add'),
+    path('complaint', ComplaintCreateView.as_view(), name='ComplaintCreateView'),
+
 ]
